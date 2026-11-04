@@ -42,7 +42,7 @@ const loadBills = async () => {
   render();
 };
 
-/* ---------- monthly total ---------- */
+/* ---------- monthly and total spending ---------- */
 function currentMonthKey() {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -55,6 +55,13 @@ function getMonthlyBills() {
     b.date.slice(0, 7) === month &&
     Number.isFinite(Number(b.total))
   );
+}
+
+function getTotalSpending() {
+  return bills.reduce((sum, b) => {
+    const amount = Number(b.total);
+    return sum + (Number.isFinite(amount) ? amount : 0);
+  }, 0);
 }
 
 /* ---------- image preparation ---------- */
@@ -336,6 +343,9 @@ function vSnap() {
 
 function vList() {
   const mb = getMonthlyBills();
+  const monthlyTotal = mb.reduce((a, b) => a + Number(b.total), 0);
+  const totalSpending = getTotalSpending();
+
   const tot = {};
 
   mb.forEach((b) => {
@@ -343,18 +353,28 @@ function vList() {
     tot[category] = (tot[category] || 0) + Number(b.total);
   });
 
-  const sum = mb.reduce((a, b) => a + Number(b.total), 0);
   const max = Math.max(1, ...Object.values(tot));
 
   return `
     <div class="card">
-      <div class="s">This Month's Spending</div>
-      <div style="font-size:26px;font-weight:700">${inr(sum)}</div>
-      <div class="s">${mb.length} bill${mb.length === 1 ? "" : "s"} this month</div>
+      <div class="row" style="gap:16px;align-items:flex-start">
+        <div class="grow">
+          <div class="s">This Month's Spending</div>
+          <div style="font-size:26px;font-weight:700">${inr(monthlyTotal)}</div>
+          <div class="s">${mb.length} bill${mb.length === 1 ? "" : "s"} this month</div>
+        </div>
+
+        <div class="grow">
+          <div class="s">Total Spending</div>
+          <div style="font-size:26px;font-weight:700">${inr(totalSpending)}</div>
+          <div class="s">${bills.length} bill${bills.length === 1 ? "" : "s"} saved</div>
+        </div>
+      </div>
+
       ${Object.entries(tot)
         .sort((a, b) => b[1] - a[1])
         .map(([c, v]) => `
-          <div style="margin-top:8px" class="s">
+          <div style="margin-top:12px" class="s">
             <div class="row">
               <span class="grow">${esc(c)}</span>
               <span class="amt">${inr(v)}</span>
