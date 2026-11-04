@@ -218,7 +218,7 @@ input[type=number] {
   to { transform: rotate(360deg); }
 }
 
-/* Premium home screen positioning */
+/* Premium home screen */
 #app:has(input[type=file]) > .card {
   margin-top: clamp(65px, 15vh, 145px);
   padding: 25px 20px;
@@ -241,6 +241,31 @@ input[type=number] {
 
 #app:has(input[type=file]) .btn.alt {
   margin-bottom: 0 !important;
+}
+
+/* Scanning and preview elements */
+.preview-image {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  display: block;
+  border-radius: 16px;
+  background: var(--bg);
+  border: 1px solid var(--bd);
+  margin: 12px 0;
+}
+
+.scan-status {
+  background: var(--acs);
+  border-radius: 14px;
+  padding: 15px;
+  text-align: center;
+  color: var(--ac);
+  margin: 12px 0;
+}
+
+.scan-status .spin {
+  margin-bottom: 8px;
 }
 
 .warn {
@@ -299,9 +324,11 @@ nav button.on {
   font-size: 14px;
   display: none;
   z-index: 20;
+  max-width: calc(100% - 32px);
+  text-align: center;
 }
 
-/* Two-second animated intro */
+/* Animated intro */
 #splash {
   position: fixed;
   inset: 0;
@@ -399,7 +426,6 @@ nav button.on {
 
 <body>
 
-<!-- Animated intro -->
 <div id="splash">
   <div class="splash-logo">BS</div>
   <div class="splash-title">Bill Snap</div>
