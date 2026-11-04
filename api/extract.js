@@ -9,7 +9,7 @@ export const config = {
   },
 };
 
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 const TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export async function extract(
