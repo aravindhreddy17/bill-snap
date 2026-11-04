@@ -1,0 +1,8 @@
+{
+  "name": "bill-snap",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "eval": "node eval/run.mjs" },
+  "engines": { "node": ">=18" }
+}
